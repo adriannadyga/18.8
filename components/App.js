@@ -49,18 +49,35 @@ App = React.createClass({
           });
   },
 
+    // handleSearch: function(searchingText) {  
+    //     this.setState({
+    //       loading: true  
+    //     });
+    //     this.getGif(searchingText, function(gif) { 
+    //       this.setState({  
+    //         loading: false,  
+    //         gif: gif,  
+    //         searchingText: searchingText 
+    //       });
+    //     }.bind(this));
+    //   },    
     handleSearch: function(searchingText) {  
-        this.setState({
-          loading: true  
-        });
-        this.getGif(searchingText, function(gif) { 
-          this.setState({  
-            loading: false,  
-            gif: gif,  
-            searchingText: searchingText 
+      this.setState({
+        loading: true  
+      });
+     this.getGif(searchingText)
+      .then(response => {
+          this.setState ({
+              loading: false,
+              gif: {
+                  url: response.fixed_width_downsampled_url,
+                  sourceUrL: response.url
+              },
+          searchingText: searchingText
           });
-        }.bind(this));
-      },    
+      })
+      .catch(error => console.error('Something went wrong', error));    
+    },
         
         render: function() {
             //style inline
